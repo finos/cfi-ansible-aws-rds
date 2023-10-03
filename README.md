@@ -1,47 +1,60 @@
-[![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/6557/badge)](https://bestpractices.coreinfrastructure.org/projects/6557)
-[<img src="https://img.shields.io/badge/slack-@finos/compliant%20financial%20infrastructure-green.svg?logo=slack">](https://finos-lf.slack.com/messages/cfi/)
+# CFI Service Deployment, Hardening, Validation and Deletion Repository
 
-<img src="https://github.com/finos/branding/blob/master/project-logos/active-project-logos/Compliant%20Financial%20Infrastructure%20Logo/Horizontal/2021_CFI_Logo_Horizontal.png?raw=true" width="450">
+The purpose of this repository is to provide infrastructure as code to deploy, harden, test and destroy services.
 
+Required credentials and secrets are held in GITHUB Action secrets for this repo. 
 
-
-# Compliant Financial Infrastructure: Ansible Service Validation Repository
-
-
-## To get a new CFI Ansible Service Validation Repository
-
-To clone this repo for a new Ansible Service Validation repository, please create an issue using the following format:
-
-- **Title:**  `Create repo: cfi-ansible-cloud_provider-cloud-service`
-- **Subject:** *A short blurb explaining what this repo is for and who will contribute to it*
-
-Discussion from the community and approval from the maintainers should then take place. Upon maintainer approval, a FINOS technical support staff member should be contacted and assigned the issue.
-
-## After your new repo is created
-
-Adjust this readme as part of your first commit after creating a repository from this template.
-
-This readme should inclkude the following sections, once you have update the readme delete the instructions above, leaving the CFI Project header. 
-
-
-# Compliant Financial Infrastructure: `service being validated`
-
-`add purpose of the repository and link to documentation from CCC on taxonomy, attack vectors and hardening``
+This example is for Amazons Relational Database Service (RDS). 
 
 ## Setup
 
-`add descriptiopn oif any setup steps required, e.g. GitHub secrets or setup on the cloud provider`
+### GitHub Action Secrets
 
-## Workflow and Ansible Playbook
+The following secrets need to be setup in this GutHub repo
 
-`description of the GitHub Action workflow and Ansible playbook(s)`
+* AWS_ACCESS_KEY_ID
+* AWS_SECRET_ACCESS_KEY
+* MASTER_USERNAME
+* MASTER_USER_PASSWORD
+
+### AWS Setup
+
+This example creates an RDS in the default VPC using the default subnet, the AWS region (us-east-2) is coded into the Ansible playbook.
+
+To create a default VPC and Subnet use the AWS cli.
+
+```shell
+aws configure
+```
+Then add WS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and default AWS Region (us-east-2)
+
+```shell
+aws ec2 create-default-vpc
+```
+
+## Database Setup
+
+The database setup is coded into the [create]{ansible/create-rds-db.yaml} Ansible playbook. The database parameters used are:
+
+ * allocated_storage: 10 
+ * DB_ENGINE: "mariadb"
+ * DB_ID: "CFI-validator-db"
+
+
+## Workflow
+
+There is a GitHub Workflow that has been setup that include four jobs:
+
+1. Deploy: Creates the hardened RDS
+2. Validate: Runs the CFI Validator to ensure deploy services meets required policies
+3. Destroy: Deletes the RDS
+
+This workflow is trigger when a *push* is made to the Dev branch. The main and dev branches of this repo are write protected.
+
 
 ## Usage
 
-`How the validation is run`
+TODO: Need to create this usage section
 
 
-
-
-
+Link to [aws rds ansible module](https://docs.ansible.com/ansible/latest/collections/amazon/aws/rds_instance_module.html)

@@ -1,0 +1,114 @@
+########################################################################################
+##                                                                                    ##
+##                 SAMPLE WORKFLOW THAT CAN BE ADAPTED FOR USE CASE                   ##
+##                                                                                    ##
+########################################################################################
+
+
+
+#########################################################
+##                                                     ##
+##                  CREATE SERVICE                     ##
+##                                                     ##
+#########################################################
+
+name: deploy_validate_destroy_rds
+
+on:
+  push:
+    branches:
+      - dev  # Adjust this to your main branch name
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+#  ==>>>  steps needs to be added below to invoke hardening <<<===
+
+    steps:
+      - name: Print a Message
+        run: echo "This is the deploy service job"
+
+
+#########################################################
+##                                                     ##
+##                HARDEN SERVICE                       ##
+##                                                     ##
+#########################################################
+
+
+  harden:
+    name: harden
+    needs: deploy
+    runs-on: ubuntu-latest
+
+#  ==>>>  steps needs to be added below to invoke hardening <<<===
+
+    steps:
+      - name: Print a Message
+        run: echo "This is the harden service job"
+
+  
+#########################################################
+##                                                     ##
+##                VALIDATE SERVICE                     ##
+##                                                     ##
+#########################################################
+
+
+  validate:
+    name: validate
+    needs: harden
+    runs-on: ubuntu-latest
+
+#  ==>>>  steps needs to be added below to invoke validator <<<===
+
+    steps:
+      - name: Print a Message
+        run: echo "This is the validate service job"
+
+       
+
+#########################################################
+##                                                     ##
+##                  DESTROY SERVICE                    ##
+##                                                     ##
+#########################################################
+
+  destroy:
+    name: destroy
+    needs: validate
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8  # Use the desired Python version
+
+      - name: Install Ansible and botocore
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+          pip install boto3 botocore
+
+      - name: Run Ansible playbook
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+        run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml
+        
+
+
+
+    

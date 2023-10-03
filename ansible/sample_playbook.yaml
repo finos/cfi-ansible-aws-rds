@@ -1,0 +1,41 @@
+########################################################################################
+##                                                                                    ##
+##                               SAMPLE Ansible Playbook                              ##
+##                                                                                    ##
+########################################################################################
+
+
+
+
+---
+- name: "Create RDS instance"
+  hosts: localhost
+  vars: 
+# TODO: MOVE DB Master USERNAME and PASSWORD into GIT SECRET. Currently issue as blank variable being passed  
+    username: myork
+    password: redhat123
+    allocated_storage: 10 
+    DB_ENGINE: "mariadb"
+    DB_ID: "CFI-validator-db"
+    DB_AWS_REGION: "us-east-2"
+  
+    
+  tasks:
+  - name: Create a new DB instance in RDS/AWS in the default VPC
+    community.aws.rds_instance:
+      aws_region: "{{ DB_AWS_REGION }}"
+      id: "{{ DB_ID }}"
+      state: present
+      engine: "{{ DB_ENGINE }}"
+      storage_encrypted: True
+      db_instance_class: db.t2.medium
+      allocated_storage: "{{ allocated_storage }}"
+# TODO: MOVE DB Master USERNAME and PASSWORD into GIT SECRET. Currently issue as blank variable being passed
+      username: "{{ username }}"
+      password: "{{ password }}"
+
+    register: dbdetails
+
+  - name: Print the details of the database
+    debug:
+      var: dbdetails

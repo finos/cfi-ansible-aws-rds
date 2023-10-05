@@ -8,7 +8,7 @@
     DB_AWS_REGION: "us-east-2"
 
 # hardening variables
-    STORAGE_ENCRYPTED: "true" 
+    STORAGE_ENCRYPTED: true 
     
   tasks:
   - name: Create a new DB instance in RDS/AWS in the default VPC

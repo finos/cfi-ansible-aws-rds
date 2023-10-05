@@ -6,7 +6,9 @@
     DB_ENGINE: "mariadb"
     DB_ID: "CFI-validator-db"
     DB_AWS_REGION: "us-east-2"
-  
+
+# hardening variables
+    STORAGE_ENCRYPTED: "true" 
     
   tasks:
   - name: Create a new DB instance in RDS/AWS in the default VPC
@@ -20,6 +22,8 @@
       allocated_storage: "{{ allocated_storage }}"
       master_username: "{{ master_username }}"
       master_user_password: "{{ master_user_password }}"
+# hardening variables      
+      storage_encrypted: "{{ storage_encrypted }}"
 
     register: dbdetails
 

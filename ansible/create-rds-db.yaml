@@ -7,7 +7,7 @@
     DB_ID: "CFI-validator-db"
     DB_AWS_REGION: "us-east-2"
 # hardening variables
-    STORAGE_ENCRYPTED: True 
+    STORAGE_ENCRYPTED: "True" 
     
   tasks:
   - name: Create a new DB instance in RDS/AWS in the default VPC

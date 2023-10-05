@@ -6,20 +6,20 @@
     DB_ENGINE: "mariadb"
     DB_ID: "CFI-validator-db"
     DB_AWS_REGION: "us-east-2"
-
 # hardening variables
-    STORAGE_ENCRYPTED: true 
+    STORAGE_ENCRYPTED: True 
     
   tasks:
   - name: Create a new DB instance in RDS/AWS in the default VPC
     community.aws.rds_instance:
+      state: present
+      db_instance_class: db.t2.medium
+# playbook variable
       aws_region: "{{ DB_AWS_REGION }}"
       id: "{{ DB_ID }}"
-      state: present
       engine: "{{ DB_ENGINE }}"
-      storage_encrypted: True
-      db_instance_class: db.t2.medium
       allocated_storage: "{{ ALLOCATED_STORAGE }}"
+# playbook runtine environment variables
       master_username: "{{ master_username }}"
       master_user_password: "{{ master_user_password }}"
 # hardening variables      

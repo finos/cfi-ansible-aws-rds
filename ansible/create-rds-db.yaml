@@ -2,7 +2,7 @@
 - name: "Create RDS instance"
   hosts: localhost
   vars: 
-    allocated_storage: 10 
+    ALLOCATED_STORAGE: 10 
     DB_ENGINE: "mariadb"
     DB_ID: "CFI-validator-db"
     DB_AWS_REGION: "us-east-2"
@@ -19,11 +19,11 @@
       engine: "{{ DB_ENGINE }}"
       storage_encrypted: True
       db_instance_class: db.t2.medium
-      allocated_storage: "{{ allocated_storage }}"
+      allocated_storage: "{{ ALLOCATED_STORAGE }}"
       master_username: "{{ master_username }}"
       master_user_password: "{{ master_user_password }}"
 # hardening variables      
-      storage_encrypted: "{{ storage_encrypted }}"
+      storage_encrypted: "{{ STORAGE_ENCRYPTED }}"
 
     register: dbdetails
 

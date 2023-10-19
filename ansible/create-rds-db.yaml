@@ -2,24 +2,28 @@
 - name: "Create RDS instance"
   hosts: localhost
   vars: 
-    allocated_storage: 10 
+    ALLOCATED_STORAGE: 10 
     DB_ENGINE: "mariadb"
     DB_ID: "CFI-validator-db"
     DB_AWS_REGION: "us-east-2"
-  
+# hardening control variables
+    STOARGE_ENCRYPTED: "true"
     
   tasks:
   - name: Create a new DB instance in RDS/AWS in the default VPC
     community.aws.rds_instance:
+      state: present
+      db_instance_class: db.t2.medium
+# playbook variables
       aws_region: "{{ DB_AWS_REGION }}"
       id: "{{ DB_ID }}"
-      state: present
       engine: "{{ DB_ENGINE }}"
-      storage_encrypted: True
-      db_instance_class: db.t2.medium
-      allocated_storage: "{{ allocated_storage }}"
+      allocated_storage: "{{ ALLOCATED_STORAGE }}"
+# playbook runtime environment variables
       master_username: "{{ master_username }}"
       master_user_password: "{{ master_user_password }}"
+# Hardening controls
+      storage_encrypted: "{{ STOARGE_ENCRYPTED }}"
 
     register: dbdetails
 

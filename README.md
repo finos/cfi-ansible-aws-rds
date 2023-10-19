@@ -34,8 +34,8 @@ For the CI to work it requires for GitHub Action secrets to be setup in the repo
 
 The following secrets need to be setup in this GutHub repo
 
-* AWS_ACCESS_KEY_ID
-* AWS_SECRET_ACCESS_KEY
+* AWS_KEY_ID
+* AWS_KEY_SECRET
 * MASTER_USERNAME
 * MASTER_USER_PASSWORD
 

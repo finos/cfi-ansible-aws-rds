@@ -100,3 +100,8 @@ To use this repo:
 * Fork repository
 * Update GitHub Secrets to reflect your local setup
 * Update CI / Playbooks to support use case
+
+Link to [aws rds ansible module](https://docs.ansible.com/ansible/latest/collections/amazon/aws/rds_instance_module.html)
+
+Updated: 19th October 2023
+

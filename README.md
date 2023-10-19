@@ -12,8 +12,8 @@ This example is for Amazons Relational Database Service (RDS).
 
 The following secrets need to be setup in this GutHub repo
 
-* AWS_ACCESS_KEY_ID
-* AWS_SECRET_ACCESS_KEY
+* AWS_KEY_ID
+* AWS_KEY_SECRET
 * MASTER_USERNAME
 * MASTER_USER_PASSWORD
 

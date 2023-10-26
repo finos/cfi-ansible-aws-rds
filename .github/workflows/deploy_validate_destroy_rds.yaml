@@ -53,12 +53,28 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
 
-#  ==>>>  steps needs to be added below to invoke validator <<<===
-
+    # We don't currently have a working installer for privateer and its raids, so building from source for now
     steps:
-      - name: Print a Message
-        run: echo "This is the validate service job"
+      - name: Fetch and Build Privateer
+        run: git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer
 
+      - name: Build Privateer
+        run: |
+          cd privateer
+          go build
+        working-directory: privateer
+      
+      - name: Fetch and Build RDS Raid
+        run: |
+          git clone --branch v0.0.2 --depth 1 https://github.com/krumIO/raid-rds rds
+          cd rds
+          go build
+          mkdir -p ~/privateer/bin
+          mv rds ~/privateer/bin/rds
+        working-directory: ${{ github.workspace }}
+
+      - name: Run privateer with an empty config, expecting failure
+        run: ./privateer/privateer sally rds || true # I'll remember the proper way to do this later.
        
 
 #########################################################

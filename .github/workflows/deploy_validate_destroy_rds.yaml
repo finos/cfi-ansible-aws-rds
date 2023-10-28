@@ -12,7 +12,8 @@ on:
       - dev  # Adjust this to your main branch name
 
 env:
-  WriteDirectory: privateer_output
+  WriteDirectory: ~/privateer_output
+  Config: ~/privateer/privateer/example-config.yaml
   Destroy: true
 
 jobs:

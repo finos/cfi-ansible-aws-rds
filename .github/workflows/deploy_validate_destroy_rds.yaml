@@ -67,6 +67,7 @@ jobs:
           git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer
           cd privateer
           mv example-config.yml ${{ env.CONFIG }}
+          ls -la ${{ env.CONFIG }}
           go build
       
       - name: Fetch and Build RDS Raid
@@ -79,7 +80,9 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Run privateer with an empty config, expecting failure
-        run: ./privateer/privateer sally rds --config ${{ env.CONFIG }}
+        run: |
+          ls -la ${{ env.CONFIG }}
+          ./privateer/privateer sally rds --config ${{ env.CONFIG }}
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results

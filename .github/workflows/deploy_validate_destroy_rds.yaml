@@ -66,11 +66,11 @@ jobs:
       
       - name: Fetch and Build RDS Raid
         run: |
-          git clone --branch v0.0.2 --depth 1 https://github.com/krumIO/raid-rds rds
-          cd rds
+          git clone --branch v0.0.2 --depth 1 https://github.com/krumIO/raid-rds
+          cd raid-rds
           go build
           mkdir -p ~/privateer/bin
-          mv rds ~/privateer/bin/rds
+          mv raid-rds ~/privateer/bin/rds
         working-directory: ${{ github.workspace }}
 
       - name: Run privateer with an empty config, expecting failure

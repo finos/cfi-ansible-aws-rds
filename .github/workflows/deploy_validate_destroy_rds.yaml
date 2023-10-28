@@ -78,7 +78,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Run privateer with an empty config, expecting failure
-        run: ./privateer/privateer sally rds
+        run: ./privateer/privateer sally rds --config ${{ env.CONFIG }}
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results

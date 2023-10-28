@@ -54,6 +54,8 @@ jobs:
     runs-on: ubuntu-latest
 
     # We don't currently have a working installer for privateer and its raids, so building from source for now
+    # TODO: get config from GitHub Secrets
+    # TODO: save output as artifacts
     steps:
       - name: Fetch and Build Privateer
         run: git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer
@@ -75,7 +77,6 @@ jobs:
 
       - name: Run privateer with an empty config, expecting failure
         run: ./privateer/privateer sally rds || true # I'll remember the proper way to do this later.
-       
 
 #########################################################
 ##                                                     ##
@@ -110,8 +111,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
 
         run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml
-        
-
 
 
     

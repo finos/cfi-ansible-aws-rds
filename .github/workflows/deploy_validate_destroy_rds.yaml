@@ -80,15 +80,15 @@ jobs:
 
       - name: Run privateer with an empty config, expecting failure
         run: |
-          ls -la
           ./privateer/privateer sally rds --config ${{ env.CONFIG }}
+          ls -la
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: ${{ env.WRITEDIRECTORY }}
+          path: ~/privateer/test_output
 
 
 #########################################################

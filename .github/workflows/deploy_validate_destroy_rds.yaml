@@ -58,13 +58,10 @@ jobs:
     # TODO: save output as artifacts
     steps:
       - name: Fetch and Build Privateer
-        run: git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer
-
-      - name: Build Privateer
         run: |
+          git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer
           cd privateer
           go build
-        working-directory: privateer
       
       - name: Fetch and Build RDS Raid
         run: |

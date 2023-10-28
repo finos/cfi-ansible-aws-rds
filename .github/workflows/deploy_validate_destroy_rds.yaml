@@ -13,7 +13,7 @@ on:
 
 env:
   WRITEDIRECTORY: '~/test_output'
-  CONFIG: '~/privateer/example-config.yaml'
+  CONFIG: '~/config.yaml'
 
 jobs:
   deploy:
@@ -66,6 +66,7 @@ jobs:
         run: |
           git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer
           cd privateer
+          mv example-config.yml ${{ env.CONFIG }}
           go build
       
       - name: Fetch and Build RDS Raid

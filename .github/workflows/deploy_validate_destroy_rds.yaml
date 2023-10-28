@@ -85,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: ${{ env.WRITEDIRECTORY }}
+          path: test_output
 
 
 #########################################################

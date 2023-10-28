@@ -81,7 +81,11 @@ jobs:
       - name: Run privateer with an empty config, expecting failure
         run: |
           sed -i 's^WriteDirectory: .*$^WriteDirectory: ~/privateer_output^' ${{ env.CONFIG }}
+          cat ${{ env.CONFIG }}
           ./privateer/privateer sally rds --config ${{ env.CONFIG }}
+          ls -la ~
+          ls -la ~/privateer_output
+          
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results

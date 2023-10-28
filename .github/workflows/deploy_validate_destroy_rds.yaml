@@ -14,7 +14,6 @@ on:
 env:
   WRITEDIRECTORY: '~/privateer_output'
   CONFIG: '~/privateer/privateer/example-config.yaml'
-  DESTROY: true
 
 jobs:
   deploy:
@@ -86,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: ${{ WRITEDIRECTORY }}
+          path: ${{ env.WriteDirectory }}
 
 
 #########################################################
@@ -99,7 +98,7 @@ jobs:
     name: destroy
     needs: validate
     runs-on: ubuntu-latest
-    if: ${{ DESTROY == 'true' }}
+    if: never()
 
     steps:
 

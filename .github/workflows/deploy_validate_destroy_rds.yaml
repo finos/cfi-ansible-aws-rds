@@ -11,6 +11,9 @@ on:
     branches:
       - dev  # Adjust this to your main branch name
 
+env:
+  WriteDirectory: privateer_output
+
 jobs:
   deploy:
     name: deploy
@@ -75,6 +78,14 @@ jobs:
 
       - name: Run privateer with an empty config, expecting failure
         run: ./privateer/privateer sally rds
+        working-directory: ${{ github.workspace }}
+
+      - name: Archive validation results
+        uses: actions/upload-artifact@v3
+        with:
+          name: privateer-output
+          path: privateer_output
+
 
 #########################################################
 ##                                                     ##

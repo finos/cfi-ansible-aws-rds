@@ -19,6 +19,8 @@ env:
   MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}
   MASTER_USER_PASSWORD: ${{ secrets.MASTER_USER_PASSWORD }}
   AWS_PRIMARY_REGION: 'us-east-2b'
+  INSTANCE_ID: 'CFI-validator-db'
+  DB_NAME: 'test_db'
 
 jobs:
   deploy:
@@ -41,7 +43,7 @@ jobs:
         pip install boto3 botocore
 
     - name: Run Ansible playbook      
-      run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY master_username=$MASTER_USERNAME master_user_password=$MASTER_USER_PASSWORD" ansible/create-rds-db.yaml
+      run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY master_username=$MASTER_USERNAME master_user_password=$MASTER_USER_PASSWORD db_name=$DB_NAME db_id=$INSTANCE_ID db_aws_region=$AWS_PRIMARY_REGION" ansible/create-rds-db.yaml
       
   
 #########################################################
@@ -83,6 +85,8 @@ jobs:
           sed -i 's^aws_secret_key: .*$^aws_secret_key: ${{ env.AWS_SECRET_ACCESS_KEY }}^' ${{ env.CONFIG }}
           sed -i 's^aws_region: .*$^aws_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^primary_region: .*$^primary_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
+          sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
+
         working-directory: ${{ github.workspace }}/raid-rds
 
       - name: Run privateer with an empty config, expecting failure

@@ -12,7 +12,7 @@ on:
       - dev  # Adjust this to your main branch name
 
 env:
-  WRITEDIRECTORY: '~/privateer_output'
+  WRITEDIRECTORY: '~/test_output'
   CONFIG: '~/privateer/privateer/example-config.yaml'
 
 jobs:
@@ -85,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: test_output
+          path: ${{ env.WRITEDIRECTORY }}
 
 
 #########################################################

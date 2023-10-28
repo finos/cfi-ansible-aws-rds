@@ -13,6 +13,7 @@ on:
 
 env:
   WriteDirectory: privateer_output
+  Destroy: true
 
 jobs:
   deploy:
@@ -84,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: privateer_output
+          path: ${{ env.WriteDirectory }}
 
 
 #########################################################
@@ -97,6 +98,7 @@ jobs:
     name: destroy
     needs: validate
     runs-on: ubuntu-latest
+    if: ${{ env.Destroy == 'true' }}
 
     steps:
 
@@ -120,6 +122,3 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
 
         run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml
-
-
-    

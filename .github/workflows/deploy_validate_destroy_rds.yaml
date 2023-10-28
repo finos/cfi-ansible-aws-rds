@@ -86,7 +86,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: ${{ env.WriteDirectory }}
+          path: ${{ WRITEDIRECTORY }}
 
 
 #########################################################
@@ -99,7 +99,7 @@ jobs:
     name: destroy
     needs: validate
     runs-on: ubuntu-latest
-    if: ${{ env.DESTROY == 'true' }}
+    if: ${{ DESTROY == 'true' }}
 
     steps:
 

@@ -81,7 +81,7 @@ jobs:
 
       - name: Run privateer with an empty config, expecting failure
         run: |
-          ls -la ${{ env.CONFIG }}
+          cat ${{ env.CONFIG }}
           ./privateer/privateer sally rds --config ${{ env.CONFIG }}
         working-directory: ${{ github.workspace }}
 

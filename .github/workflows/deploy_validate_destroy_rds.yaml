@@ -12,9 +12,9 @@ on:
       - dev  # Adjust this to your main branch name
 
 env:
-  WriteDirectory: '~/privateer_output'
-  Config: '~/privateer/privateer/example-config.yaml'
-  Destroy: true
+  WRITEDIRECTORY: '~/privateer_output'
+  CONFIG: '~/privateer/privateer/example-config.yaml'
+  DESTROY: true
 
 jobs:
   deploy:
@@ -99,7 +99,7 @@ jobs:
     name: destroy
     needs: validate
     runs-on: ubuntu-latest
-    if: ${{ env.Destroy == 'true' }}
+    if: ${{ env.DESTROY == 'true' }}
 
     steps:
 

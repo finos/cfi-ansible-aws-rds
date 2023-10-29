@@ -12,8 +12,8 @@ on:
       - dev  # Adjust this to your main branch name
 
 env:
-  WRITEDIRECTORY: '${{ github.workspace }}/privateer/output'
-  CONFIG: '${{ github.workspace }}/privateer/config.yaml'
+  WRITEDIRECTORY: '~/privateer/output'
+  CONFIG: '~/privateer/config.yaml'
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
   MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}
@@ -75,8 +75,8 @@ jobs:
           git clone --depth 1 https://github.com/krumIO/raid-rds
           cd raid-rds
           go build
-          mv raid-rds ~/privateer/bin/rds
           mv example-config.yml ${{ env.CONFIG }}
+          mv raid-rds ~/privateer/bin/rds
         working-directory: ${{ github.workspace }}
 
       - name: Update config vars

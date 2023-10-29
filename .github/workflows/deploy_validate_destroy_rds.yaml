@@ -13,7 +13,7 @@ on:
 
 env:
   WRITEDIRECTORY: '~/privateer/output'
-  CONFIG: '~/privateer/config.yaml'
+  CONFIG: '~/config.yaml' # Do not store this as an artifact, it contains secrets
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
   MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}
@@ -44,7 +44,7 @@ jobs:
 
     - name: Run Ansible playbook      
       run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY master_username=$MASTER_USERNAME master_user_password=$MASTER_USER_PASSWORD db_name=$DB_NAME db_id=$INSTANCE_ID db_aws_region=$AWS_PRIMARY_REGION" ansible/create-rds-db.yaml
-      
+
   
 #########################################################
 ##                                                     ##

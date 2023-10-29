@@ -12,8 +12,8 @@ on:
       - dev  # Adjust this to your main branch name
 
 env:
-  WRITEDIRECTORY: '~/privateer/output'
-  CONFIG: '~/privateer/config.yaml'
+  WRITEDIRECTORY: '${{ github.workspace }}/privateer/output'
+  CONFIG: '${{ github.workspace }}/privateer/config.yaml'
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
   MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}

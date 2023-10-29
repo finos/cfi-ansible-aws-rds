@@ -103,27 +103,26 @@ jobs:
 ##                  DESTROY SERVICE                    ##
 ##                                                     ##
 #########################################################
-  # Disabling while actively devving
-  # destroy:
-  #   name: destroy
-  #   needs: validate
-  #   runs-on: ubuntu-latest
+  destroy:
+    name: destroy
+    needs: validate
+    runs-on: ubuntu-latest
 
-  #   steps:
+    steps:
 
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
     
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: 3.8  # Use the desired Python version
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8  # Use the desired Python version
 
-  #     - name: Install Ansible and botocore
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install ansible
-  #         pip install boto3 botocore
+      - name: Install Ansible and botocore
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible
+          pip install boto3 botocore
 
-  #     - name: Run Ansible playbook
-  #       run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml
+      - name: Run Ansible playbook
+        run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml

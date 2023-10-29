@@ -12,7 +12,7 @@ on:
       - dev  # Adjust this to your main branch name
 
 env:
-  WRITEDIRECTORY: 'output'
+  WRITEDIRECTORY: '~/privateer/output'
   CONFIG: '~/config.yaml'
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
@@ -98,7 +98,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: privateer-output
-          path: ${{ env.WRITEDIRECTORY }}
+          path: ~/privateer
 
 
 #########################################################

@@ -68,7 +68,7 @@ jobs:
           cd privateer-core
           go build
           mkdir -p ${{ github.workspace }}/privateer/bin
-          mv privateer ${{ github.workspace }}/privateer/bin
+          mv privateer ${{ github.workspace }}/privateer/bin/privateer
       
       - name: Fetch and Build RDS Raid
         run: |

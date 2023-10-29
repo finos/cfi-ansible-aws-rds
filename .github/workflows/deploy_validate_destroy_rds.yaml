@@ -89,7 +89,7 @@ jobs:
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
 
       - name: Run privateer with an empty config, expecting failure
-        run: ./${{ github.workspace }}/privateer/bin/privateer sally rds --config ${{ env.CONFIG }}
+        run: ${{ github.workspace }}/privateer/bin/privateer sally rds --config ${{ env.CONFIG }}
 
       - name: Archive validation results
         uses: actions/upload-artifact@v3

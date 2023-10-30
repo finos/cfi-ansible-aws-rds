@@ -13,7 +13,7 @@ on:
 
 env:
   WRITEDIRECTORY: '${{ github.workspace }}/privateer/output'
-  BIN: '${{ github.workspace }}/privateer/bin'
+  BIN: '~/privateer/bin'
   CONFIG: '${{ github.workspace }}/config.yaml' # Do not store this as an artifact, it contains secrets
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
@@ -88,7 +88,6 @@ jobs:
           sed -i 's^region: .*$^region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^primary_region: .*$^primary_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
-          echo "\nbinaries-path: ${{ env.BIN }}" >> ${{ env.CONFIG }}
       - name: Run privateer with updated config
         run: |
           ${{ env.BIN }}/privateer list -a --config ${{ env.CONFIG }}

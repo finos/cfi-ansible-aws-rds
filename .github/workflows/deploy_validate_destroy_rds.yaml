@@ -90,7 +90,7 @@ jobs:
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
       - name: Run privateer with updated config
         run: |
-          ${{ env.BIN }}/privateer list -a --config ${{ env.CONFIG }}
+          ${{ env.BIN }}/privateer list --config ${{ env.CONFIG }}
           ls -l ${{ env.WRITEDIRECTORY }}
           cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yml
         working-directory: ${{ github.workspace }}

@@ -89,7 +89,9 @@ jobs:
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
 
       - name: Run privateer with updated config
-        run: ~/privateer/bin/privateer sally rds --config ${{ env.CONFIG }}
+        run: |
+          ~/privateer/bin/privateer sally rds --config ${{ env.CONFIG }}
+          cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yml
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results

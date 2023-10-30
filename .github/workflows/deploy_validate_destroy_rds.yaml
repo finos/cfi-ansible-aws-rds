@@ -60,7 +60,6 @@ jobs:
     continue-on-error: true
 
     # We don't currently have a working installer for privateer and its raids, so building from source for now
-    # TODO: get config from GitHub Secrets
     steps:
       - name: Fetch and Build Privateer
         run: |
@@ -79,6 +78,7 @@ jobs:
           mv raid-rds ~/privateer/bin/rds
         working-directory: ${{ github.workspace }}
 
+      # TODO: get config from GitHub Secrets
       - name: Update config vars
         run: |
           sed -i 's^WriteDirectory: .*$^WriteDirectory: ${{ env.WRITEDIRECTORY }}^' ${{ env.CONFIG }}
@@ -88,8 +88,9 @@ jobs:
           sed -i 's^primary_region: .*$^primary_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
 
-      - name: Run privateer with an empty config, expecting failure
+      - name: Run privateer with updated config
         run: ~/privateer/bin/privateer sally rds --config ${{ env.CONFIG }}
+        working-directory: ${{ github.workspace }}
 
       - name: Archive validation results
         uses: actions/upload-artifact@v3
@@ -103,26 +104,27 @@ jobs:
 ##                  DESTROY SERVICE                    ##
 ##                                                     ##
 #########################################################
-  destroy:
-    name: destroy
-    needs: validate
-    runs-on: ubuntu-latest
+  # Disabled for development only
+  # destroy:
+  #   name: destroy
+  #   needs: validate
+  #   runs-on: ubuntu-latest
 
-    steps:
+  #   steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
     
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8  # Use the desired Python version
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.8  # Use the desired Python version
 
-      - name: Install Ansible and botocore
-        run: |
-          python -m pip install --upgrade pip
-          pip install ansible
-          pip install boto3 botocore
+  #     - name: Install Ansible and botocore
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install ansible
+  #         pip install boto3 botocore
 
-      - name: Run Ansible playbook
-        run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml
+  #     - name: Run Ansible playbook
+  #       run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml

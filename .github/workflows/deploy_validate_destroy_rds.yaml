@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: Fetch and Build Privateer
         run: |
-          git clone --branch --depth 1 https://github.com/privateerproj/privateer privateer-core
+          git clone --depth 1 https://github.com/privateerproj/privateer privateer-core
           cd privateer-core
           go build
           mkdir -p ${{ env.BIN }}

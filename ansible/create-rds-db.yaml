@@ -24,6 +24,7 @@
       master_user_password: "{{ master_user_password }}"
 # Hardening controls
       storage_encrypted: "{{ STOARGE_ENCRYPTED }}"
+      enable_iam_database_authentication: true
 
     register: dbdetails
 

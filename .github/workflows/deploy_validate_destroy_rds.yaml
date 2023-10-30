@@ -88,7 +88,7 @@ jobs:
           sed -i 's^region: .*$^region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^primary_region: .*$^primary_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
-          echo "binaries-path: ${{ env.BIN }}" >> ${{ env.CONFIG }}
+          echo "\nbinaries-path: ${{ env.BIN }}" >> ${{ env.CONFIG }}
       - name: Run privateer with updated config
         run: |
           ${{ env.BIN }}/privateer list -a --config ${{ env.CONFIG }}

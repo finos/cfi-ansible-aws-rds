@@ -7,10 +7,10 @@
 name: deploy_validate_destroy_rds
 
 on:
+  workflow_dispatch:  
   push:
     branches:
       - dev
-  workflow_dispatch:
 
 env:
   WRITEDIRECTORY: '${{ github.workspace }}/privateer/output'

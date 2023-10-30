@@ -90,10 +90,8 @@ jobs:
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
       - name: Run privateer with updated config
         run: |
-          mkdir -p ${{ env.WRITEDIRECTORY }}
           ./pvtr sally rds --config ${{ env.CONFIG }}
-          ls -l ${{ env.WRITEDIRECTORY }}
-          cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yml
+          cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yaml
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results

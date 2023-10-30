@@ -20,6 +20,7 @@
       allocated_storage: "{{ allocated_storage }}"
       master_username: "{{ master_username }}"
       master_user_password: "{{ master_user_password }}"
+      enable_iam_database_authentication: True
 
     register: dbdetails
 

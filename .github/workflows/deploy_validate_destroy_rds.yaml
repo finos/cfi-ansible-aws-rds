@@ -67,8 +67,8 @@ jobs:
           git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer-core
           cd privateer-core
           go build
-          mkdir -p ${{ BIN }}
-          mv privateer ${{ BIN }}/privateer
+          mkdir -p ${{ env.BIN }}
+          mv privateer ${{ env.BIN }}/privateer
       
       - name: Fetch and Build RDS Raid
         run: |
@@ -76,7 +76,7 @@ jobs:
           cd raid-rds
           go build
           mv example-config.yml ${{ env.CONFIG }}
-          mv raid-rds ${{ BIN }}/rds
+          mv raid-rds ${{ env.BIN }}/rds
         working-directory: ${{ github.workspace }}
 
       # TODO: get config from GitHub Secrets
@@ -91,7 +91,7 @@ jobs:
           echo "binaries-path: ${{ env.BIN }}" >> ${{ env.CONFIG }}
       - name: Run privateer with updated config
         run: |
-          ${{ BIN }}/privateer sally rds --config ${{ env.CONFIG }}
+          ${{ env.BIN }}/privateer sally rds --config ${{ env.CONFIG }}
           ls -l ${{ env.WRITEDIRECTORY }}
           cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yml
         working-directory: ${{ github.workspace }}

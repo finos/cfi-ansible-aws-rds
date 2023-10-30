@@ -9,11 +9,12 @@ name: deploy_validate_destroy_rds
 on:
   push:
     branches:
-      - dev  # Adjust this to your main branch name
+      - dev
 
 env:
-  WRITEDIRECTORY: '~/privateer/output'
-  CONFIG: '~/config.yaml' # Do not store this as an artifact, it contains secrets
+  WRITEDIRECTORY: '${{ github.workspace }}/privateer/output'
+  BIN: '${{ github.workspace }}/privateer/bin'
+  CONFIG: '${{ github.workspace }}/config.yaml' # Do not store this as an artifact, it contains secrets
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
   MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}
@@ -66,8 +67,8 @@ jobs:
           git clone --branch v0.0.1 --depth 1 https://github.com/privateerproj/privateer privateer-core
           cd privateer-core
           go build
-          mkdir -p ~/privateer/bin
-          mv privateer ~/privateer/bin/privateer
+          mkdir -p ${{ BIN }}
+          mv privateer ${{ BIN }}/privateer
       
       - name: Fetch and Build RDS Raid
         run: |
@@ -75,7 +76,7 @@ jobs:
           cd raid-rds
           go build
           mv example-config.yml ${{ env.CONFIG }}
-          mv raid-rds ~/privateer/bin/rds
+          mv raid-rds ${{ BIN }}/rds
         working-directory: ${{ github.workspace }}
 
       # TODO: get config from GitHub Secrets
@@ -87,10 +88,11 @@ jobs:
           sed -i 's^region: .*$^region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^primary_region: .*$^primary_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
           sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
-
+          echo "binaries-path: ${{ env.BIN }}" >> ${{ env.CONFIG }}
       - name: Run privateer with updated config
         run: |
-          ~/privateer/bin/privateer sally rds --config ${{ env.CONFIG }}
+          ${{ BIN }}/privateer sally rds --config ${{ env.CONFIG }}
+          ls -l ${{ env.WRITEDIRECTORY }}
           cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yml
         working-directory: ${{ github.workspace }}
 

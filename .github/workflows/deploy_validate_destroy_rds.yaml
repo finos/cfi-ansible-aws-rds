@@ -19,7 +19,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
   MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}
   MASTER_USER_PASSWORD: ${{ secrets.MASTER_USER_PASSWORD }}
-  AWS_PRIMARY_REGION: 'us-east-2b'
+  AWS_PRIMARY_REGION: 'us-east-2'
   INSTANCE_ID: 'CFI-validator-db'
   DB_NAME: 'test_db'
 

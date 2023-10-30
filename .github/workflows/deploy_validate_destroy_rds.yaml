@@ -68,7 +68,7 @@ jobs:
           cd privateer-core
           go build
           mkdir -p ${{ env.BIN }}
-          mv privateer ${{ github.workspace }}
+          mv privateer ${{ github.workspace }}/pvtr
       
       - name: Fetch and Build RDS Raid
         run: |
@@ -91,7 +91,7 @@ jobs:
       - name: Run privateer with updated config
         run: |
           mkdir -p ${{ env.WRITEDIRECTORY }}
-          ./privateer sally rds --config ${{ env.CONFIG }}
+          ./pvtr sally rds --config ${{ env.CONFIG }}
           ls -l ${{ env.WRITEDIRECTORY }}
           cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yml
         working-directory: ${{ github.workspace }}

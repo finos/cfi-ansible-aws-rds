@@ -9,7 +9,19 @@ name: deploy_validate_destroy_rds
 on:
   push:
     branches:
-      - dev  # Adjust this to your main branch name
+      - dev
+
+env:
+  WRITEDIRECTORY: '${{ github.workspace }}/privateer/output'
+  BIN: '~/privateer/bin'
+  CONFIG: '${{ github.workspace }}/config.yaml' # Do not store this as an artifact, it contains secrets
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_KEY_SECRET }}
+  MASTER_USERNAME: ${{ secrets.MASTER_USERNAME }}
+  MASTER_USER_PASSWORD: ${{ secrets.MASTER_USER_PASSWORD }}
+  AWS_PRIMARY_REGION: 'us-east-2'
+  INSTANCE_ID: 'CFI-validator-db'
+  DB_NAME: 'test_db'
 
 jobs:
   deploy:
@@ -18,12 +30,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8  # Use the desired Python version
+        python-version: 3.8
 
     - name: Install Ansible and botocore
       run: |
@@ -31,15 +43,9 @@ jobs:
         pip install ansible
         pip install boto3 botocore
 
-    - name: Run Ansible playbook
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        MASTER_USERNAME: ${{ secrets.MASTER_USERNAME}}
-        MASTER_USER_PASSWORD: ${{ secrets.MASTER_USER_PASSWORD}}
-      
-      run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY master_username=$MASTER_USERNAME master_user_password=$MASTER_USER_PASSWORD" ansible/create-rds-db.yaml
-      
+    - name: Run Ansible playbook      
+      run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY master_username=$MASTER_USERNAME master_user_password=$MASTER_USER_PASSWORD db_name=$DB_NAME db_id=$INSTANCE_ID db_aws_region=$AWS_PRIMARY_REGION" ansible/create-rds-db.yaml
+
   
 #########################################################
 ##                                                     ##
@@ -52,21 +58,55 @@ jobs:
     name: validate
     needs: deploy
     runs-on: ubuntu-latest
+    continue-on-error: true
 
-#  ==>>>  steps needs to be added below to invoke validator <<<===
-
+    # We don't currently have a working installer for privateer and its raids, so building from source for now
     steps:
-      - name: Print a Message
-        run: echo "This is the validate service job"
+      - name: Fetch and Build Privateer
+        run: |
+          git clone --depth 1 https://github.com/privateerproj/privateer privateer-core
+          cd privateer-core
+          go build
+          mkdir -p ${{ env.BIN }}
+          mv privateer ${{ github.workspace }}/pvtr
+      
+      - name: Fetch and Build RDS Raid
+        run: |
+          git clone --depth 1 https://github.com/krumIO/raid-rds
+          cd raid-rds
+          go build
+          mv example-config.yml ${{ env.CONFIG }}
+          mv raid-rds ${{ env.BIN }}/rds
+        working-directory: ${{ github.workspace }}
 
-       
+      # TODO: get config from GitHub Secrets
+      - name: Update config vars
+        run: |
+          sed -i 's^WriteDirectory: .*$^WriteDirectory: ${{ env.WRITEDIRECTORY }}^' ${{ env.CONFIG }}
+          sed -i 's^access_key: .*$^access_key: ${{ env.AWS_ACCESS_KEY_ID }}^' ${{ env.CONFIG }}
+          sed -i 's^secret_key: .*$^secret_key: ${{ env.AWS_SECRET_ACCESS_KEY }}^' ${{ env.CONFIG }}
+          sed -i 's^region: .*$^region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
+          sed -i 's^primary_region: .*$^primary_region: ${{ env.AWS_PRIMARY_REGION }}^' ${{ env.CONFIG }}
+          sed -i 's^instance_identifier: .*$^instance_identifier: ${{ env.INSTANCE_ID }}^' ${{ env.CONFIG }}
+
+      - name: Run privateer with updated config
+        run: |
+          ./pvtr sally rds --config ${{ env.CONFIG }}
+          cat ${{ env.WRITEDIRECTORY }}/RDS-CCC-Taxonomy/results.yaml
+        working-directory: ${{ github.workspace }}
+
+      - name: Archive validation results
+        uses: actions/upload-artifact@v3
+        with:
+          name: privateer-output
+          path: ${{ env.WRITEDIRECTORY }}
+
 
 #########################################################
 ##                                                     ##
 ##                  DESTROY SERVICE                    ##
 ##                                                     ##
 #########################################################
-
   destroy:
     name: destroy
     needs: validate
@@ -89,13 +129,4 @@ jobs:
           pip install boto3 botocore
 
       - name: Run Ansible playbook
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
         run: ansible-playbook -e "aws_access_key=$AWS_ACCESS_KEY_ID aws_secret_key=$AWS_SECRET_ACCESS_KEY" ansible/delete-rds-db.yaml
-        
-
-
-
-    

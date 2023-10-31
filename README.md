@@ -17,7 +17,7 @@ For the CI to work it requires for GitHub Action secrets to be setup in the repo
 
 ### Deploy
 
-This step deploys an AWS RDS and applies the security policies that have been selected. The [Ansible create-rds-db.yaml playbook](ansible/create-rds-db.yaml) used in this CI step bith creates the RDS and also applies the required security policies.
+This step deploys an AWS RDS and applies the security policies that have been selected. The [Ansible create-rds-db.yaml playbook](ansible/create-rds-db.yaml) used in this CI step both creates the RDS and also applies the required security policies.
 
 ### Validate
 

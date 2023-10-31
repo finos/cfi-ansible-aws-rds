@@ -108,10 +108,6 @@ Be sure to join our public community meetings found on the [FINOS community cale
 
 For more information about how to engage with the rest of the community and contribute to the project, view the documentation and links [here](CONTRIBUTING.md).
 
-### Thank you to our contributors!
-
-<img src="https://contrib.rocks/image?repo=finos/cfi-ansible-aws-rds" />
-
 ## License
 
 Distributed under the [Apache License, Version 2.0](LICENSE).

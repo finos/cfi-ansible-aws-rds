@@ -9,7 +9,7 @@ Validation of compliance with the security policies is measured after the IaC ha
 
 Runtime Validation of the IaC is achieved through a three-step GitHub workflow, outlined below.
 
-## CI Overview
+## CI Overview
 
 This deploy->validate->destroy workflow can be triggered manually, or will run when code is merged to the dev branch.
 

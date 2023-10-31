@@ -7,6 +7,8 @@
 3. After code review and merge into `dev`, runtime validation pipeline will run
 4. Following successful validation, `dev` will be merged by maintainers into `main` and tagged with a release number as appropriate
 
+NOTE: All contributors must have a contributor license agreement (CLA) on file with FINOS before their pull requests will be merged. Please review the FINOS [contribution requirements](https://community.finos.org/docs/governance/Software-Projects/contribution-compliance-requirements) and submit (or have your employer submit) the required CLA before submitting a pull request.
+
 ## Governance
 
 This codebase is independently governed as a sub-project of the [Compliant Financial Infrastructure (CFI)](http://github.com/finos/compliant-financial-infrastructure) project.
@@ -15,7 +17,7 @@ Upon unanimous vote from the maintainers of the parent project (CFI), that body 
 
 Please refer to [CODEOWNERS](CODEOWNERS) for the most up-to-date list of maintainers for this sub-project.
 
-The sub-project is also governed by the Linux Foundation Antitrust Policy, and the FINOS IP Policy, Code of Conduct, Collaborative Principles, and Meeting Procedures.
+The sub-project is also governed by the [Linux Foundation Antitrust Policy](https://www.linuxfoundation.org/antitrust-policy/), and the FINOS [IP Policy]( https://community.finos.org/governance-docs/IP-policy.pdf), [Code of Conduct](https://community.finos.org/docs/governance/code-of-conduct), [Collaborative Principles](https://community.finos.org/docs/governance/collaborative-principles/), and [Meeting Procedures](https://community.finos.org/docs/governance/meeting-procedures/).
 
 ### Roles
 

@@ -7,7 +7,7 @@
     DB_ID: "CFI-validator-db"
     DB_AWS_REGION: "us-east-2"
 # hardening control variables
-    STOARGE_ENCRYPTED: "true"
+    STORAGE_ENCRYPTED: "true"
     
   tasks:
   - name: Create a new DB instance in RDS/AWS in the default VPC
@@ -23,7 +23,7 @@
       master_username: "{{ master_username }}"
       master_user_password: "{{ master_user_password }}"
 # Hardening controls
-      storage_encrypted: "{{ STOARGE_ENCRYPTED }}"
+      storage_encrypted: "{{ STORAGE_ENCRYPTED }}"
       enable_iam_database_authentication: true
 
     register: dbdetails

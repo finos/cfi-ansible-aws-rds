@@ -1,34 +1,31 @@
-WORK IN PROGRESS
+[![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
+[![Join us on Slack](https://img.shields.io/badge/slack-@finos/cfi%20runtime%20validation-green.svg?logo=slack)](https://finos-lf.slack.com/messages/cfi-runtime-validation-wg)
 
+# CFI Ansible Playbook for AWS RDS
 
-# CFI Service Deployment, Validation and Deletion for AWS RDS
+The purpose of this repository is to provide an AWS RDS service that meets the security policies defined by the FINOS Compliant Financial Infrastructure (CFI) Policy Working Group or FINOS Common Cloud Controls.
 
-The purpose of this repository is to provide an AWS RDS service that meets the security policies defined by The FINOS CCC and CFOI project and documented as an SAA in the CFI repository.
+Validation of compliance with the security policies is measured after the IaC has been deployed, using the [RDS Raid](https://github.com/krumIO/raid-rds) for [Privateer](https://github.com/privateerproj) supplied by the CFI Runtime Validation Working Group.
 
-Testing of the IaC is achieved through a three step GitHub workflow, this workflow is trigged when code is pushed to the dev branch. The three steps are *deploy*, *validate* and *destroy*. 
+Runtime Validation of the IaC is achieved through a three-step GitHub workflow, outlined below.
 
-This workflow uses [Ansible playbooks](ansible), these playbook are using the [AWS RDA Ansible Module](https://docs.ansible.com/ansible/latest/collections/amazon/aws/rds_instance_module.html). 
-Playbooks could be reused by users as a starting to point to create a [CCC](https://www.finos.org/common-cloud-controls-project) and [CFI](https://github.com/finos/compliant-financial-infrastructure) compliant RDS in their own environments. 
+## CI Overview
 
-Code is only meege to main on successful completion of CI in the dev branch. 
+This deploy->validate->destroy workflow can be triggered manually, or will run when code is merged to the dev branch.
 
-## CI Overview
+For the CI to work it requires for GitHub Action secrets to be setup in the repo. In the main repo these are supplied by FINOS technical support. When working on a fork of the repo, these need to be managed by the repo owner.
 
 ### Deploy
 
-This step deploys an AWS RDS and applies the security policies that have been defined BY WHO and documented in THE. The [Ansible create-rds-db.yaml playbook](ansible/create-rds-db.yaml) used in this CI step bith creates the RDS and also applies the required security policies. 
+This step deploys an AWS RDS and applies the security policies that have been selected. The [Ansible create-rds-db.yaml playbook](ansible/create-rds-db.yaml) used in this CI step both creates the RDS and also applies the required security policies.
 
 ### Validate
 
-This step uses that CFI Validator to check that the defined security policy for Relational Databases has been correctly aplied to the deployed AWS RDS. If a PR fails validation an issue will be opened by the project maintaiers and assigned back to the contributor for resolution. 
+This step uses the RDS Raid to ensure that the defined security policy for Relational Databases has been correctly applied to the deployed AWS RDS. Any failing checks should be promptly investigated and resolved.
 
 ### Destroy
 
 This step destroys the RDS once validation has been completed, this step runs the [Ansible delete-rds-db.yaml playbook](ansible/delete-rds-db.yaml)
-
-### CI Setup
-
-For the CI to work it requires for GitHub Action secrets to be setup in the repo. In the main repo these are maintain by FINOS, when working on a fork of the repo then these need to be managed locally.
 
 ## GitHub Action Secrets
 
@@ -101,6 +98,22 @@ To use this repo:
 * Update GitHub Secrets to reflect your local setup
 * Update CI / Playbooks to support use case
 
-Link to [aws rds ansible module](https://docs.ansible.com/ansible/latest/collections/amazon/aws/rds_instance_module.html)
+## Join the Community!
 
+You may request changes via [GitHub Issues](https://github.com/finos/compliant-financial-infrastructure/issues) (we recommend also raising discussion on Slack or in a community meeting to ensure your issue is properly prioritized).
 
+Be sure to join our public community meetings found on the [FINOS community calendar](https://www.finos.org/finos-community-calendar), and join us on [Slack](https://finos-lf.slack.com/messages/cfi-reproducible-infrastructure-wg).
+
+## Contributing
+
+For more information about how to engage with the rest of the community and contribute to the project, view the documentation and links [here](CONTRIBUTING.md).
+
+## License
+
+Distributed under the [Apache License, Version 2.0](LICENSE).
+
+SPDX-License-Identifier: [Apache-2.0](https://spdx.org/licenses/Apache-2.0)
+
+## Security Concerns
+
+If you have any security concerns related to this project, please [create an issue on the primary CFI repository](https://github.com/finos/compliant-financial-infrastructure/issues/new/choose) or privately report via [help@finos.org](mailto:help@finos.org).

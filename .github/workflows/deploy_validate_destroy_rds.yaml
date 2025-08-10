@@ -97,7 +97,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Archive validation results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: privateer-output
           path: ${{ env.WRITEDIRECTORY }}

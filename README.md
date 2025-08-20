@@ -1,5 +1,8 @@
-[![FINOS - Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://finosfoundation.atlassian.net/wiki/display/FINOS/Incubating)
-[![Join us on Slack](https://img.shields.io/badge/slack-@finos/cfi%20runtime%20validation-green.svg?logo=slack)](https://finos-lf.slack.com/messages/cfi-runtime-validation-wg)
+[![FINOS - Archived](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-archived.svg)](https://community.finos.org/docs/governance/Software-Projects/stages/archived)
+
+> [!IMPORTANT]
+> This project is archived, which means that it's in read-only state; you can download and use this code, but please be aware that it may be buggy and may also contain security vulnerabilities.
+> Some related work is being continued in the [Common Cloud Controls Standard Project](https://github.com/finos/common-cloud-controls).
 
 # CFI Ansible Playbook for AWS RDS
 
